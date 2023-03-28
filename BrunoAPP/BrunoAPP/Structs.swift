@@ -14,8 +14,11 @@ struct Notification : Hashable{
     let date : String
 }
 
-struct Location: Identifiable {
+struct Sensor: Identifiable {
     let id = UUID()
+    // pegar id do banco de dados
     let name: String
+    let locationName: String
+    let description: String
     let coordinate: CLLocationCoordinate2D
 }

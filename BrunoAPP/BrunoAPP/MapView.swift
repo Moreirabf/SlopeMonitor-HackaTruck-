@@ -17,51 +17,52 @@ struct MapView: View {
     
     
     @State var mapRegion = [
-        Location(name: "Sao Paulo", coordinate: CLLocationCoordinate2D(latitude: -23.5489, longitude: -46.6388)),
-        Location(name: "New York", coordinate: CLLocationCoordinate2D(latitude: 40.6643, longitude: -73.9385)),
-        Location(name: "London", coordinate: CLLocationCoordinate2D(latitude: 51.5, longitude: -0.12))
+        Sensor(name: "Sao Paulo", locationName: "Lugar 1", description: "primeiro sensor", coordinate: CLLocationCoordinate2D(latitude: -23.5489, longitude: -46.6388)),
+        Sensor(name: "New York", locationName: "Lugar 2", description: "segundo sensor", coordinate: CLLocationCoordinate2D(latitude: 40.6643, longitude: -73.9385)),
+        Sensor(name: "London", locationName: "Lugar 3", description: "terceiro sensor", coordinate: CLLocationCoordinate2D(latitude: 51.5, longitude: -0.12))
         
     ]
     
     var body: some View {
-        ZStack{
-            Map(coordinateRegion: $mapLocation, annotationItems: mapRegion){place in
-                MapAnnotation(coordinate: place.coordinate){
-                    Button{
+        NavigationStack {
+            ZStack{
+                Map(coordinateRegion: $mapLocation, annotationItems: mapRegion){place in
+                    MapAnnotation(coordinate: place.coordinate){
+                        NavigationLink{
+                            SensorView(sensor: place)
+                        }label:{
+                            Image(systemName: "mappin.circle.fill")
+                                .resizable()
+                                .frame(width: 30,height: 30)
+                                .foregroundColor(.red)
+                        }
                         
-                    }label:{
-                        Image(systemName: "mappin.circle.fill")
-                            .resizable()
-                            .frame(width: 30,height: 30)
-                            .foregroundColor(.red)
                     }
+                }
+                    .scaledToFill()
+                    .ignoresSafeArea()
+                
+                
+                VStack(){
+                    Spacer()
                     
-                }
-            }
-                .scaledToFill()
-                .ignoresSafeArea()
-            
-            
-            VStack(){
-                Spacer()
-                
-                Button{
-                        
-                } label:{
-                    Image(systemName: "sensor.fill")
-                        .resizable()
-                        .frame(width: 40, height: 30)
-                }
-                .padding(.bottom,20)
+                    Button{
+                            
+                    } label:{
+                        Image(systemName: "sensor.fill")
+                            .resizable()
+                            .frame(width: 40, height: 30)
+                    }
+                    .padding(.bottom,20)
+                    
+                    
+                }.frame(maxWidth: 360, alignment: .trailing)
                 
                 
-            }.frame(maxWidth: 360, alignment: .trailing)
-            
-            
-            
-        }
-        
-    }
+                
+            }//zStack
+        }//navStack
+    }//body
 }
 
 struct MapView_Previews: PreviewProvider {
