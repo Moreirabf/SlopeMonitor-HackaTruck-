@@ -7,8 +7,35 @@
 
 import SwiftUI
 import MapKit
+import Charts
+
+struct UmidityData: Identifiable {
+    let id = UUID()
+    let date: Date
+    let umidity: Double
+    
+    init(year: Int, month: Int, day: Int, umidity: Double) {
+        self.date = Calendar.current.date(from: .init(year: year, month: month, day: day)) ?? Date()
+        self.umidity = umidity
+    }
+}
 
 struct SensorView: View {
+    // umidity data
+    let spUmidityData = [
+        UmidityData(year: 2023, month: 1, day: 1, umidity: 23),
+        UmidityData(year: 2023, month: 1, day: 2, umidity: 12),
+        UmidityData(year: 2023, month: 1, day: 3, umidity: 14),
+        UmidityData(year: 2023, month: 1, day: 4, umidity: 18),
+        UmidityData(year: 2023, month: 1, day: 5, umidity: 23),
+        UmidityData(year: 2023, month: 1, day: 6, umidity: 22),
+        UmidityData(year: 2023, month: 1, day: 7, umidity: 21),
+        UmidityData(year: 2023, month: 1, day: 8, umidity: 27),
+        UmidityData(year: 2023, month: 1, day: 9, umidity: 39),
+        UmidityData(year: 2023, month: 1, day: 10, umidity: 35),
+        UmidityData(year: 2023, month: 1, day: 11, umidity: 28)
+    ]
+    
     var sensor : Sensor
     @State private var mapLocation = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 0, longitude: 0), span: MKCoordinateSpan(latitudeDelta: 0.03, longitudeDelta: 0.03))
     
@@ -28,9 +55,13 @@ struct SensorView: View {
                 Map(coordinateRegion: $mapLocation)
                     .frame(width: 220, height: 220)
             }
-            Spacer()
-            //chart
-            
+            Chart {
+                ForEach(spUmidityData) { item in
+                    LineMark(
+                        x: .value("Month", item.date),
+                        y: .value("Umidity", item.umidity))
+                }
+            }.frame(width: 300, height: 300)
         }.onAppear(){
             mapLocation.center = sensor.coordinate
         }
