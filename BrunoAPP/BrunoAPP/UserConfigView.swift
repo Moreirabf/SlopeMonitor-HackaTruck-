@@ -9,7 +9,9 @@ import SwiftUI
 
 struct UserConfigView: View {
     var body: some View {
-        Text("Configuracao de usuario")
+        NavigationStack{
+            
+        }
     }
 }
 

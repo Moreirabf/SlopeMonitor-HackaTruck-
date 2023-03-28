@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3F69A9DF29D35E1900543F5A /* Structs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F69A9DE29D35E1900543F5A /* Structs.swift */; };
+		3F69A9E129D3616C00543F5A /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F69A9E029D3616C00543F5A /* LoginView.swift */; };
+		3F69A9E329D3618900543F5A /* SubUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F69A9E229D3618900543F5A /* SubUserView.swift */; };
+		3F69A9E529D3625900543F5A /* RecoveryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F69A9E429D3625900543F5A /* RecoveryView.swift */; };
 		3FA638B329C4D704008013FA /* BrunoAPPApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA638B229C4D704008013FA /* BrunoAPPApp.swift */; };
 		3FA638B529C4D704008013FA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA638B429C4D704008013FA /* ContentView.swift */; };
 		3FA638B729C4D705008013FA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3FA638B629C4D705008013FA /* Assets.xcassets */; };
@@ -18,6 +22,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3F69A9DE29D35E1900543F5A /* Structs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Structs.swift; sourceTree = "<group>"; };
+		3F69A9E029D3616C00543F5A /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		3F69A9E229D3618900543F5A /* SubUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubUserView.swift; sourceTree = "<group>"; };
+		3F69A9E429D3625900543F5A /* RecoveryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecoveryView.swift; sourceTree = "<group>"; };
 		3FA638AF29C4D704008013FA /* BrunoAPP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BrunoAPP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FA638B229C4D704008013FA /* BrunoAPPApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrunoAPPApp.swift; sourceTree = "<group>"; };
 		3FA638B429C4D704008013FA /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -67,6 +75,10 @@
 				3FA638C429C4DB59008013FA /* NotificationView.swift */,
 				3FA6393D29D1FF2F008013FA /* SensorSubView.swift */,
 				3FA6393F29D1FF56008013FA /* UserConfigView.swift */,
+				3F69A9DE29D35E1900543F5A /* Structs.swift */,
+				3F69A9E029D3616C00543F5A /* LoginView.swift */,
+				3F69A9E229D3618900543F5A /* SubUserView.swift */,
+				3F69A9E429D3625900543F5A /* RecoveryView.swift */,
 			);
 			path = BrunoAPP;
 			sourceTree = "<group>";
@@ -152,8 +164,12 @@
 				3FA638B529C4D704008013FA /* ContentView.swift in Sources */,
 				3FA6394029D1FF56008013FA /* UserConfigView.swift in Sources */,
 				3FA638C329C4DAEF008013FA /* MapView.swift in Sources */,
+				3F69A9DF29D35E1900543F5A /* Structs.swift in Sources */,
+				3F69A9E329D3618900543F5A /* SubUserView.swift in Sources */,
+				3F69A9E529D3625900543F5A /* RecoveryView.swift in Sources */,
 				3FA6393E29D1FF30008013FA /* SensorSubView.swift in Sources */,
 				3FA638B329C4D704008013FA /* BrunoAPPApp.swift in Sources */,
+				3F69A9E129D3616C00543F5A /* LoginView.swift in Sources */,
 				3FA638C529C4DB59008013FA /* NotificationView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
