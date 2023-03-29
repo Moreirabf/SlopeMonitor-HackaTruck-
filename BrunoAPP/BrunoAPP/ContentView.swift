@@ -12,6 +12,7 @@ import MapKit
 
 struct SensorSheet: View{
     
+    @Binding var isPresented : Bool
     
     @State var mapRegion = [
         Sensor(name: "Sao Paulo", locationName: "Lugar 1", description: "primeiro sensor", coordinate: CLLocationCoordinate2D(latitude: -23.5489, longitude: -46.6388)),
@@ -25,7 +26,7 @@ struct SensorSheet: View{
                 ForEach(mapRegion) { region in
                     Button(region.name){
                         mapLocation.center = region.coordinate
-                        //isPresented = false
+                        isPresented = false
                     }
                 }
             }

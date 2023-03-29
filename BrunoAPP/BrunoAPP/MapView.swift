@@ -57,7 +57,7 @@ struct MapView: View {
                     .sheet(isPresented: $showingSheet, onDismiss: {
                         mapLocat.center = mapLocation.center
                       }, content: {
-                          SensorSheet()
+                          SensorSheet(isPresented: $showingSheet)
                       })
             
                     
