@@ -1,0 +1,139 @@
+[
+    {
+        "id": "db953d04bccdc124",
+        "type": "tab",
+        "label": "Flow 11",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "0686af450d29cbdb",
+        "type": "function",
+        "z": "db953d04bccdc124",
+        "name": "function 4",
+        "func": "// let controle = 0\n// let valor = 1\n\n// setInterval(()=>{\n//     controle = Math.random();\n// }, 2000)\n// if(controle!==valor){   \n//     valor = controle\nreturn { umidade: msg.payload.d.umidade + \" %\", inclinacao: msg.payload.d.inclinacaoSegmentos + \" graus\", date: new Date(), raw: { umidade: msg.payload.d.umidade * 1, inclinacaoSegmentos: msg.payload.d.inclinacaoSegmentos * 1, inclinacaoDegrees: msg.payload.d.inclinacaoDegrees * 1 } };\n//     return msg\n// }\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 280,
+        "wires": [
+            [
+                "941dab588f2b84d1"
+            ]
+        ]
+    },
+    {
+        "id": "2d2a385b0bf11c71",
+        "type": "cloudantplus out",
+        "z": "db953d04bccdc124",
+        "name": "",
+        "cloudant": "8c77f0134531d589",
+        "database": "slope_monitor",
+        "service": "_ext_",
+        "payonly": true,
+        "operation": "insert",
+        "x": 400,
+        "y": 400,
+        "wires": [
+            [
+                "8b575c07c631411d"
+            ]
+        ]
+    },
+    {
+        "id": "8b575c07c631411d",
+        "type": "debug",
+        "z": "db953d04bccdc124",
+        "name": "debug 22",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 660,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "941dab588f2b84d1",
+        "type": "delay",
+        "z": "db953d04bccdc124",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "10",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 380,
+        "y": 340,
+        "wires": [
+            [
+                "2d2a385b0bf11c71"
+            ]
+        ]
+    },
+    {
+        "id": "b3115b915596d6f6",
+        "type": "ibmiot in",
+        "z": "db953d04bccdc124",
+        "authentication": "apiKey",
+        "apiKey": "060bfe14b9e02a5a",
+        "inputType": "evt",
+        "logicalInterface": "",
+        "ruleId": "",
+        "deviceId": "",
+        "applicationId": "",
+        "deviceType": "+",
+        "eventType": "+",
+        "commandType": "",
+        "format": "json",
+        "name": "IBM IoT",
+        "service": "registered",
+        "allDevices": "",
+        "allApplications": true,
+        "allDeviceTypes": true,
+        "allLogicalInterfaces": "",
+        "allEvents": true,
+        "allCommands": "",
+        "allFormats": "",
+        "qos": 0,
+        "x": 230,
+        "y": 260,
+        "wires": [
+            [
+                "0686af450d29cbdb"
+            ]
+        ]
+    },
+    {
+        "id": "8c77f0134531d589",
+        "type": "cloudantplus",
+        "host": "https://apikey-v2-wmbmmvzocyv88vodpfe1exmb3jnusqfgfuwfjcrre1c:5fcc7a13f65cb9ac3df2e2f8b8e5d312@bbd3c0ee-d0c8-455b-bbd3-8d6d996c2c0a-bluemix.cloudantnosqldb.appdomain.cloud",
+        "name": "Base Caue",
+        "useapikey": false
+    },
+    {
+        "id": "060bfe14b9e02a5a",
+        "type": "ibmiot",
+        "name": "Caumaker",
+        "keepalive": "60",
+        "serverName": "k7vm21.messaging.internetofthings.ibmcloud.com",
+        "cleansession": true,
+        "appId": "",
+        "shared": false
+    }
+]
