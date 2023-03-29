@@ -9,12 +9,12 @@ import SwiftUI
 import MapKit
 
 struct MapView: View {
-    func printa() {
-        return
-    }
     
-    @State private var mapLocation = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: -23.5489, longitude: -46.6388), span: MKCoordinateSpan(latitudeDelta: 0.3, longitudeDelta: 0.3))
+    //@Binding var isPresented: Bool
     
+    @State var showingSheet = false
+    
+    @State var mapLocat = MKCoordinateRegion(center: mapLocation.center, span: mapLocation.span)
     
     @State var mapRegion = [
         Sensor(name: "Sao Paulo", locationName: "Lugar 1", description: "primeiro sensor", coordinate: CLLocationCoordinate2D(latitude: -23.5489, longitude: -46.6388)),
@@ -26,7 +26,7 @@ struct MapView: View {
     var body: some View {
         NavigationStack {
             ZStack{
-                Map(coordinateRegion: $mapLocation, annotationItems: mapRegion){place in
+                Map(coordinateRegion: $mapLocat, annotationItems: mapRegion){place in
                     MapAnnotation(coordinate: place.coordinate){
                         NavigationLink{
                             SensorView(sensor: place)
@@ -47,26 +47,37 @@ struct MapView: View {
                     Spacer()
                     
                     Button{
-                            
+                        showingSheet.toggle()
                     } label:{
                         Image(systemName: "sensor.fill")
                             .resizable()
                             .frame(width: 40, height: 30)
                     }
                     .padding(.bottom,20)
+                    .sheet(isPresented: $showingSheet, onDismiss: {
+                        mapLocat.center = mapLocation.center
+                      }, content: {
+                          SensorSheet()
+                      })
+            
                     
                     
                 }.frame(maxWidth: 360, alignment: .trailing)
                 
                 
                 
-            }//zStack
+            }.onAppear(){
+                mapLocat.center = mapLocation.center
+            }
+            //zStack
+            
         }//navStack
     }//body
 }
 
 struct MapView_Previews: PreviewProvider {
     static var previews: some View {
+        
         MapView()
     }
 }

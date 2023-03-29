@@ -19,6 +19,7 @@
 		3FA638C529C4DB59008013FA /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA638C429C4DB59008013FA /* NotificationView.swift */; };
 		3FA6393E29D1FF30008013FA /* SensorSubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA6393D29D1FF2F008013FA /* SensorSubView.swift */; };
 		3FA6394029D1FF56008013FA /* UserConfigView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA6393F29D1FF56008013FA /* UserConfigView.swift */; };
+		3FA706BD29D4A9D000B79DB6 /* PopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA706BC29D4A9D000B79DB6 /* PopupView.swift */; };
 		FC28613229D36A560058815C /* SensorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC28613129D36A560058815C /* SensorView.swift */; };
 /* End PBXBuildFile section */
 
@@ -36,6 +37,7 @@
 		3FA638C429C4DB59008013FA /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		3FA6393D29D1FF2F008013FA /* SensorSubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorSubView.swift; sourceTree = "<group>"; };
 		3FA6393F29D1FF56008013FA /* UserConfigView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserConfigView.swift; sourceTree = "<group>"; };
+		3FA706BC29D4A9D000B79DB6 /* PopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupView.swift; sourceTree = "<group>"; };
 		FC28613129D36A560058815C /* SensorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -82,6 +84,7 @@
 				3F69A9E229D3618900543F5A /* SubUserView.swift */,
 				3F69A9E429D3625900543F5A /* RecoveryView.swift */,
 				FC28613129D36A560058815C /* SensorView.swift */,
+				3FA706BC29D4A9D000B79DB6 /* PopupView.swift */,
 			);
 			path = BrunoAPP;
 			sourceTree = "<group>";
@@ -173,6 +176,7 @@
 				3F69A9E529D3625900543F5A /* RecoveryView.swift in Sources */,
 				3FA6393E29D1FF30008013FA /* SensorSubView.swift in Sources */,
 				3FA638B329C4D704008013FA /* BrunoAPPApp.swift in Sources */,
+				3FA706BD29D4A9D000B79DB6 /* PopupView.swift in Sources */,
 				3F69A9E129D3616C00543F5A /* LoginView.swift in Sources */,
 				3FA638C529C4DB59008013FA /* NotificationView.swift in Sources */,
 			);
