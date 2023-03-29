@@ -21,6 +21,8 @@ struct UmidityData: Identifiable {
 }
 
 struct SensorView: View {
+    @StateObject var viewModel = ViewModel()
+    
     // umidity data
     let spUmidityData = [
         UmidityData(year: 2023, month: 1, day: 1, umidity: 23),
@@ -40,32 +42,38 @@ struct SensorView: View {
     @State private var mapLocation = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 0, longitude: 0), span: MKCoordinateSpan(latitudeDelta: 0.03, longitudeDelta: 0.03))
     
     var body: some View {
-        VStack {
-            Text(sensor.name)
-                .font(.title)
-                .fontWeight(.bold)
-            HStack() {
-                VStack {
-                    Text(sensor.locationName)
-                    Text(sensor.description)
-                    Text("Latitude: " + String(sensor.coordinate.latitude))
-                    Text("Longitude: " + String(sensor.coordinate.longitude))
-                    
+        ScrollView {
+            VStack {
+                Text(sensor.name)
+                    .font(.title)
+                    .fontWeight(.bold)
+                HStack() {
+                    VStack {
+                        Text(sensor.locationName)
+                        Text(sensor.description)
+                        Text("Latitude: " + String(sensor.coordinate.latitude))
+                        Text("Longitude: " + String(sensor.coordinate.longitude))
+                        
+                    }
+                    Map(coordinateRegion: $mapLocation)
+                        .frame(width: 220, height: 220)
                 }
-                Map(coordinateRegion: $mapLocation)
-                    .frame(width: 220, height: 220)
+                Chart {
+                    ForEach(viewModel.sensorData, id: \.self) { item in
+                        LineMark(
+                            x: .value("Time", viewModel.formatDate(date: item.date)),
+                            y: .value("Umidity", item.raw.umidade))
+                    }
+                }.frame(width: 300, height: 300)
+                
+                if let lastElement = viewModel.sensorData.last {
+                    Text("Inclinação: " + lastElement.inclinacao)
+                }
+            }.onAppear(){
+                mapLocation.center = sensor.coordinate
+                viewModel.fetch()
             }
-            Chart {
-                ForEach(spUmidityData) { item in
-                    LineMark(
-                        x: .value("Month", item.date),
-                        y: .value("Umidity", item.umidity))
-                }
-            }.frame(width: 300, height: 300)
-        }.onAppear(){
-            mapLocation.center = sensor.coordinate
         }
-        
     }
 }
 
