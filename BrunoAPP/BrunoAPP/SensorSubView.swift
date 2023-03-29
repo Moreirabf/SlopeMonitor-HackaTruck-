@@ -8,10 +8,65 @@
 import SwiftUI
 
 struct SensorSubView: View {
+    @State private var name: String = ""
+    @State private var location: String =  ""
+    @State private var description: String = ""
+    @State private var latitude: String =  ""
+    @State private var longitude: String =  ""
+   
+
     var body: some View {
-        Text("Cadastro de sensores")
-    }
-}
+        VStack {
+            NavigationView {
+                List {
+                    // 1
+                    Section() {
+                        TextField(
+                            "Nome do sensor",
+                            text: $name
+                        )
+                        TextField(
+                            "Localizacao",
+                            text: $location
+                        )
+                        TextField(
+                            "Descricao",
+                            text: $description
+                        )
+                        TextField(
+                            "latitude",
+                            text: $latitude
+                        )
+                        TextField(
+                            "longitude",
+                            text: $longitude
+                        )
+
+
+                        }//section
+                    .navigationTitle("Adicionar um sensor")
+                    Button("Adicionar") {
+                      // button tapped
+                    
+                    }
+                    .buttonStyle(RoundedRectangleButtonStyle())
+                    .buttonStyle(BorderlessButtonStyle())
+                    .buttonStyle(DefaultButtonStyle())
+                    
+                       
+                    }// List
+                }
+               
+            }
+            
+        }
+        
+    } //VSTACK
+       
+            
+     
+
+
 
 struct SensorSubView_Previews: PreviewProvider {
     static var previews: some View {
