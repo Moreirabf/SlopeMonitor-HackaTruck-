@@ -36,8 +36,7 @@ struct SensorSheet: View{
 
 
 struct ContentView: View {
-    let timer = Timer.publish(every: 2, tolerance: 0.5, on: .main, in: .common).autoconnect()
-    @StateObject var notificationModel = NotificationModel()
+    
     private var mapLocation = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: -23.5489, longitude: -46.6388), span: MKCoordinateSpan(latitudeDelta: 0.3, longitudeDelta: 0.3))
     
     
@@ -52,8 +51,7 @@ struct ContentView: View {
                         Label("Map", systemImage: "map")
                     }
                     
-                    NotificationView(notifications: notificationModel.notifications)
-                        .badge("!")
+                    NotificationView()
                         .tabItem(){
                         Label("Notifications", systemImage: "exclamationmark.triangle")
                     }
@@ -70,8 +68,6 @@ struct ContentView: View {
             }
             
             
-        }.onReceive(timer) { time in
-            notificationModel.fetch()
         }
     }
 }

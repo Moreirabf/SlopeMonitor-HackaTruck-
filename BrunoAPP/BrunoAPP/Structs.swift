@@ -31,3 +31,7 @@ struct mapLocation {
 struct sensorData {
     static var data : [SensorData] = []
 }
+
+struct notificationData {
+    static var data : [Notification] = []
+}
