@@ -12,13 +12,7 @@ struct TestView: View {
     
     var body: some View {
         ScrollView {
-            ForEach(viewModel.sensorData, id: \.self) { c in
-                //print(viewModel.formatDate(date: c.date))
-                //Text(viewModel.formatDate(date: c.date))
-                Text(viewModel.formatDate(date: c.date), style: .time)
-            }.onAppear(){
-                viewModel.fetch()
-            }
+            
         }
     }
 }

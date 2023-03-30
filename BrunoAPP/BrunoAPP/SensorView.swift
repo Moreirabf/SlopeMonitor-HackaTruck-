@@ -21,22 +21,8 @@ struct UmidityData: Identifiable {
 }
 
 struct SensorView: View {
+    let timer = Timer.publish(every: 5, tolerance: 1, on: .main, in: .common).autoconnect()
     @StateObject var viewModel = ViewModel()
-    
-    // umidity data
-    let spUmidityData = [
-        UmidityData(year: 2023, month: 1, day: 1, umidity: 23),
-        UmidityData(year: 2023, month: 1, day: 2, umidity: 12),
-        UmidityData(year: 2023, month: 1, day: 3, umidity: 14),
-        UmidityData(year: 2023, month: 1, day: 4, umidity: 18),
-        UmidityData(year: 2023, month: 1, day: 5, umidity: 23),
-        UmidityData(year: 2023, month: 1, day: 6, umidity: 22),
-        UmidityData(year: 2023, month: 1, day: 7, umidity: 21),
-        UmidityData(year: 2023, month: 1, day: 8, umidity: 27),
-        UmidityData(year: 2023, month: 1, day: 9, umidity: 39),
-        UmidityData(year: 2023, month: 1, day: 10, umidity: 35),
-        UmidityData(year: 2023, month: 1, day: 11, umidity: 28)
-    ]
     
     var sensor : Sensor
     @State private var mapLocation = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 0, longitude: 0), span: MKCoordinateSpan(latitudeDelta: 0.03, longitudeDelta: 0.03))
@@ -59,18 +45,23 @@ struct SensorView: View {
                         .frame(width: 220, height: 220)
                 }
                 Chart {
-                    ForEach(viewModel.sensorData, id: \.self) { item in
+                    ForEach(sensorData.data, id: \.self) { item in
                         LineMark(
                             x: .value("Time", viewModel.formatDate(date: item.date)),
                             y: .value("Umidity", item.raw.umidade))
                     }
                 }.frame(width: 300, height: 300)
                 
-                if let lastElement = viewModel.sensorData.last {
+                if let lastElement = sensorData.data.last {
                     Text("Inclinação: " + lastElement.inclinacao)
                 }
-            }.onAppear(){
+            }
+            .onAppear(){
                 mapLocation.center = sensor.coordinate
+                viewModel.fetch()
+            }
+            .onReceive(timer) { time in
+                print("The time is now \(time)")
                 viewModel.fetch()
             }
         }

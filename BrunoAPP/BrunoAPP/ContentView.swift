@@ -36,8 +36,9 @@ struct SensorSheet: View{
 
 
 struct ContentView: View {
+    @StateObject var viewModel = ViewModel()
     
-   private var mapLocation = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: -23.5489, longitude: -46.6388), span: MKCoordinateSpan(latitudeDelta: 0.3, longitudeDelta: 0.3))
+    private var mapLocation = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: -23.5489, longitude: -46.6388), span: MKCoordinateSpan(latitudeDelta: 0.3, longitudeDelta: 0.3))
     
     
     var body: some View {
@@ -51,11 +52,13 @@ struct ContentView: View {
                         Label("Map", systemImage: "map")
                     }
                     
-                    NotificationView().tabItem(){
+                    NotificationView()
+                        .badge("!")
+                        .tabItem(){
                         Label("Notifications", systemImage: "exclamationmark.triangle")
                     }
                     SensorSubView().tabItem(){
-                        Label("Subscription", systemImage: "square")
+                        Label("Add Sensor", systemImage: "antenna.radiowaves.left.and.right")
                     }
                     UserConfigView().tabItem(){
                         Label("Configuration", systemImage: "gearshape.fill")

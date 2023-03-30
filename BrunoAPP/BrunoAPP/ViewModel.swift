@@ -23,10 +23,10 @@ struct SensorData : Codable, Hashable {
 }
 
 class ViewModel : ObservableObject {
-    @Published var sensorData : [SensorData] = []
+    @Published var data : [SensorData] = []
     
     func fetch() {
-        guard let url = URL(string: "http://127.0.0.1:1880/readslopemonitor") else{
+        guard let url = URL(string: "http://192.168.128.200:1880/readslopemonitor") else{
             return
         }
             
@@ -39,7 +39,8 @@ class ViewModel : ObservableObject {
                 let parsed = try JSONDecoder().decode([SensorData].self, from: data)
                 
                 DispatchQueue.main.async {
-                    self?.sensorData = parsed
+                    self?.data = parsed
+                    sensorData.data = parsed
                 }
                 
             } catch {

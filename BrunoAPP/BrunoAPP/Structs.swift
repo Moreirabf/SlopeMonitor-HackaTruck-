@@ -31,3 +31,7 @@ struct mapLocation {
     static var span =  MKCoordinateSpan(latitudeDelta: 0.3, longitudeDelta: 0.3)
     
 }
+
+struct sensorData {
+    static var data : [SensorData] = []
+}
