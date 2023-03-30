@@ -42,40 +42,64 @@ struct SensorView: View {
     @State private var mapLocation = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 0, longitude: 0), span: MKCoordinateSpan(latitudeDelta: 0.03, longitudeDelta: 0.03))
     
     var body: some View {
-        ScrollView {
-            VStack {
-                Text(sensor.name)
-                    .font(.title)
-                    .fontWeight(.bold)
-                HStack() {
-                    VStack {
-                        Text(sensor.locationName)
-                        Text(sensor.description)
-                        Text("Latitude: " + String(sensor.coordinate.latitude))
-                        Text("Longitude: " + String(sensor.coordinate.longitude))
-                        
-                    }
-                    Map(coordinateRegion: $mapLocation)
-                        .frame(width: 220, height: 220)
-                }
-                Chart {
-                    ForEach(viewModel.sensorData, id: \.self) { item in
-                        LineMark(
-                            x: .value("Time", viewModel.formatDate(date: item.date)),
-                            y: .value("Umidity", item.raw.umidade))
-                    }
-                }.frame(width: 300, height: 300)
+        NavigationStack {
+            
                 
-                if let lastElement = viewModel.sensorData.last {
-                    Text("Inclinação: " + lastElement.inclinacao)
-                }
-            }.onAppear(){
-                mapLocation.center = sensor.coordinate
-                viewModel.fetch()
-            }
+                
+                    VStack {
+                        List {
+                            Section(header : Text("Sensor")){
+                                HStack() {
+                                    VStack(alignment: .leading) {
+                                        
+                                        Text(sensor.locationName)
+                                            .font(Font.custom("Satoshi-Black", size: 26))
+                                        Text(sensor.description)
+                                            .font(Font.custom("Satoshi-Black", size: 17))
+                                        Text("Latitude: " + String(sensor.coordinate.latitude))
+                                            .font(Font.custom("Satoshi-Black", size: 16))
+                                        Text("Longitude: " + String(sensor.coordinate.longitude))
+                                            .font(Font.custom("Satoshi-Black", size: 16))
+                                        
+                                            
+                                        
+                                    }
+                                    Map(coordinateRegion: $mapLocation)
+                                        .frame(width: 160, height: 160)
+                                        .cornerRadius(10)
+                                }//section sensor
+                            }//HSTACK
+                            Section(header : Text("Umidade")){
+                                
+                                Chart {
+                                    
+                                    ForEach(viewModel.sensorData, id: \.self) { item in
+                                        LineMark(
+                                            x: .value("Time", viewModel.formatDate(date: item.date)),
+                                            y: .value("Umidity", item.raw.umidade))
+                                    }
+                                }.frame(width: 300, height: 300)
+                            }//section umidade
+                            
+                            Section(header : Text("inclinação")){
+                                if let lastElement = viewModel.sensorData.last {
+                                    Text("Inclinação: " + String( lastElement.raw.inclinacaoSegmentos))
+                                    
+                                }
+                            }//Section inclinacao
+                        }
+                        .navigationTitle(sensor.name)
+                            .onAppear(){
+                            mapLocation.center = sensor.coordinate
+                            viewModel.fetch()
+                            }
+                        }
+                    }//VSTACk
+                
+            
         }
+        
     }
-}
 
 struct SensorView_Previews: PreviewProvider {
     static var previews: some View {

@@ -26,7 +26,7 @@ class ViewModel : ObservableObject {
     @Published var sensorData : [SensorData] = []
     
     func fetch() {
-        guard let url = URL(string: "http://127.0.0.1:1880/readslopemonitor") else{
+        guard let url = URL(string: "http://192.168.128.200:1880/readslopemonitor") else{
             return
         }
             
