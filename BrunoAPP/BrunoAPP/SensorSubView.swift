@@ -13,7 +13,7 @@ struct SensorSubView: View {
     @State private var description: String = ""
     @State private var latitude: String =  ""
     @State private var longitude: String =  ""
-   
+    @State private var showAlert = false
 
     var body: some View {
         VStack {
@@ -47,7 +47,9 @@ struct SensorSubView: View {
                     
                     Button("Adicionar") {
                       // button tapped
-                    
+                        showAlert = true
+                    }.alert(isPresented : $showAlert) {
+                        Alert(title: Text("Sensor adicionado"))
                     }
                     .buttonStyle(RoundedRectangleButtonStyle())
                     .buttonStyle(BorderlessButtonStyle())
