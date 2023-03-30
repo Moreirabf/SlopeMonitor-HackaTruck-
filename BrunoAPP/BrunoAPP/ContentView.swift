@@ -65,11 +65,9 @@ struct ContentView: View {
                 .toolbarBackground(.visible,for: .tabBar)
                 
             }
-            .padding(.bottom,-15)
             
             
         }
-        .ignoresSafeArea()
     }
 }
 

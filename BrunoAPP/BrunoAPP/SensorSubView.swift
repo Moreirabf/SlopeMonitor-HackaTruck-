@@ -44,7 +44,7 @@ struct SensorSubView: View {
 
 
                         }//section
-                    .navigationTitle("Adicionar um sensor")
+                    
                     Button("Adicionar") {
                       // button tapped
                     
@@ -54,7 +54,8 @@ struct SensorSubView: View {
                     .buttonStyle(DefaultButtonStyle())
                     
                        
-                    }// List
+                    }
+                    .navigationTitle("Adicionar um sensor")// List
                 }
                
             }
