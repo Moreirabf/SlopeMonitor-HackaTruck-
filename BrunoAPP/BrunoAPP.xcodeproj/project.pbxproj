@@ -21,6 +21,7 @@
 		3FA6394029D1FF56008013FA /* UserConfigView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA6393F29D1FF56008013FA /* UserConfigView.swift */; };
 		3FA706BD29D4A9D000B79DB6 /* PopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA706BC29D4A9D000B79DB6 /* PopupView.swift */; };
 		FC28613229D36A560058815C /* SensorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC28613129D36A560058815C /* SensorView.swift */; };
+		FC5076B129D623B30063EC58 /* NotificationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5076B029D623B30063EC58 /* NotificationModel.swift */; };
 		FCC63CBD29D4C20500B5F8EB /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC63CBC29D4C20500B5F8EB /* ViewModel.swift */; };
 		FCC63CBF29D4C80C00B5F8EB /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC63CBE29D4C80C00B5F8EB /* TestView.swift */; };
 /* End PBXBuildFile section */
@@ -41,6 +42,7 @@
 		3FA6393F29D1FF56008013FA /* UserConfigView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserConfigView.swift; sourceTree = "<group>"; };
 		3FA706BC29D4A9D000B79DB6 /* PopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupView.swift; sourceTree = "<group>"; };
 		FC28613129D36A560058815C /* SensorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorView.swift; sourceTree = "<group>"; };
+		FC5076B029D623B30063EC58 /* NotificationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationModel.swift; sourceTree = "<group>"; };
 		FCC63CBC29D4C20500B5F8EB /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		FCC63CBE29D4C80C00B5F8EB /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -91,6 +93,7 @@
 				3FA706BC29D4A9D000B79DB6 /* PopupView.swift */,
 				FCC63CBC29D4C20500B5F8EB /* ViewModel.swift */,
 				FCC63CBE29D4C80C00B5F8EB /* TestView.swift */,
+				FC5076B029D623B30063EC58 /* NotificationModel.swift */,
 			);
 			path = BrunoAPP;
 			sourceTree = "<group>";
@@ -176,6 +179,7 @@
 				FCC63CBF29D4C80C00B5F8EB /* TestView.swift in Sources */,
 				3FA638B529C4D704008013FA /* ContentView.swift in Sources */,
 				3FA6394029D1FF56008013FA /* UserConfigView.swift in Sources */,
+				FC5076B129D623B30063EC58 /* NotificationModel.swift in Sources */,
 				3FA638C329C4DAEF008013FA /* MapView.swift in Sources */,
 				FC28613229D36A560058815C /* SensorView.swift in Sources */,
 				3F69A9DF29D35E1900543F5A /* Structs.swift in Sources */,

@@ -25,7 +25,7 @@ struct SensorView: View {
     @StateObject var viewModel = ViewModel()
     
     var sensor : Sensor
-    @State private var mapLocation = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 0, longitude: 0), span: MKCoordinateSpan(latitudeDelta: 0.03, longitudeDelta: 0.03))
+    @State private var mapLocat = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 10, longitude: 10), span: MKCoordinateSpan(latitudeDelta: 0.03, longitudeDelta: 0.03))
     
     var body: some View {
         NavigationStack {
@@ -47,7 +47,7 @@ struct SensorView: View {
                                 
                                 
                             }
-                            Map(coordinateRegion: $mapLocation)
+                            Map(coordinateRegion: $mapLocat)
                                 .frame(width: 160, height: 160)
                                 .cornerRadius(10)
                         }//Section sensor
@@ -55,9 +55,14 @@ struct SensorView: View {
                     Section(header: Text("Umidade")){
                         Chart {
                             ForEach(sensorData.data, id: \.self) { item in
-                                LineMark(
-                                    x: .value("Time", viewModel.formatDate(date: item.date)),
-                                    y: .value("Umidity", item.raw.umidade))
+                                let lastDate = Date.now.addingTimeInterval(-300)
+                                let sensorDate = viewModel.formatDate(date: item.date)
+                                if (sensorDate > lastDate){
+                                    LineMark(
+                                        x: .value("Time", sensorDate),
+                                        y: .value("Umidity", item.raw.umidade))
+                                }
+                                
                             }
                         }.frame(width: 300, height: 300)
                     }//sensor umidade
@@ -71,14 +76,14 @@ struct SensorView: View {
                     }//Section inclincao
             }
             .onAppear(){
-                mapLocation.center = sensor.coordinate
+                mapLocat.center = sensor.coordinate
                 viewModel.fetch()
-            }.navigationTitle(sensor.name)
-            .onReceive(timer) { time in
-                print("The time is now \(time)")
-                viewModel.fetch()
-                
             }
+            .onReceive(timer) { time in
+                viewModel.fetch()
+                mapLocat.center = sensor.coordinate
+            }
+            .navigationTitle(sensor.name)
         }
     }
 }

@@ -18,31 +18,24 @@ import SwiftUI
 
 
 struct NotificationView: View {
-    @State var notifications = [
-        Notification(type: "Risco de queda!!!", sensor: "1",date: "27/03/2023"),
-        Notification(type: "Risco de queda!!!", sensor: "2",date: "27/03/2023"),
-        Notification(type: "DESLIZAMENTO", sensor: "3",date: "27/03/2023"),
-        Notification(type: "DESLIZAMENTO", sensor: "4",date: "27/03/2023"),
-        Notification(type: "DESLIZAMENTO", sensor: "5",date: "27/03/2023"),
-    ]
+    @StateObject var notificationModel = NotificationModel()
+    @State var notifications : [Notification]
     
     var body: some View {
         VStack{
             NavigationStack{
                 List{
-                    ForEach(notifications, id: \.self){ notification in
+                    ForEach(notifications, id: \.self){ n in
                         HStack{
                             VStack(alignment: .leading){
-                                Text(notification.type).bold()
-                                Text("Sensor: " + notification.sensor)
+                                Text(notificationModel.type(type: n.notificacao)).bold()
+                                Text("Sensor: São Carlos")
                             }.padding(5)
                             Spacer()
                             VStack{
-                                Text(notification.date)
+                                Text(n.date)
                             }
                         }
-                        
-                        
                     }
                 }
                 .navigationTitle("Notificações")
@@ -54,6 +47,10 @@ struct NotificationView: View {
 
 struct NotificationView_Previews: PreviewProvider {
     static var previews: some View {
-        NotificationView()
+        let n = [Notification(_id: "", _rev: "", notificacao: 1, date: "2023-03-30T20:27:06.272Z"),
+                 Notification(_id: "", _rev: "",notificacao: 2, date: "2023-03-30T20:27:06.272Z"),
+                 Notification(_id: "", _rev: "",notificacao: 3, date: "2023-03-30T20:27:06.272Z")
+        ]
+        NotificationView(notifications: n)
     }
 }

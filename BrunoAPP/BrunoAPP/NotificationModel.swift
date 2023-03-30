@@ -1,34 +1,25 @@
 //
-//  ViewModel.swift
+//  NotificationModel.swift
 //  BrunoAPP
 //
-//  Created by Student11 on 29/03/23.
+//  Created by Student11 on 30/03/23.
 //
+
 
 import Foundation
 
-struct RawData : Codable, Hashable {
-    let umidade: Double
-    let risco: Double
-    let inclinacaoSegmentos: Double
-    let inclinacaoDegrees: Double
-}
-
-struct SensorData : Codable, Hashable {
+struct Notification : Codable, Hashable{
     let _id: String
     let _rev: String
-    let umidade: String
-    let risco: String
-    let inclinacao: String
-    let date: String
-    let raw: RawData
+    let notificacao : Int
+    let date : String
 }
 
-class ViewModel : ObservableObject {
-    @Published var data : [SensorData] = []
+class NotificationModel : ObservableObject {
+    @Published var notifications : [Notification] = []
     
     func fetch() {
-        guard let url = URL(string: "http://192.168.128.200:1880/readslopemonitor") else{
+        guard let url = URL(string: "http://192.168.128.200:1880/readslopenotification") else{
             return
         }
             
@@ -38,11 +29,10 @@ class ViewModel : ObservableObject {
             }
             
             do {
-                let parsed = try JSONDecoder().decode([SensorData].self, from: data)
+                let parsed = try JSONDecoder().decode([Notification].self, from: data)
                 
                 DispatchQueue.main.async {
-                    self?.data = parsed
-                    sensorData.data = parsed
+                    self?.notifications = parsed
                 }
                 
             } catch {
@@ -57,5 +47,18 @@ class ViewModel : ObservableObject {
         let dateFormatter = ISO8601DateFormatter()
         dateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
         return dateFormatter.date(from: date)!
+    }
+    
+    func type(type : Int) -> String {
+        if (type == 1) {
+            return "Anomalia"
+        }
+        if (type == 2) {
+            return "DESLIZAMENTO"
+        }
+        if (type == 3) {
+            return "Alto risco"
+        }
+        return ""
     }
 }

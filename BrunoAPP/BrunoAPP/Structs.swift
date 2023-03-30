@@ -9,11 +9,7 @@ import Foundation
 import MapKit
 import SwiftUI
 
-struct Notification : Hashable{
-    let type : String
-    let sensor : String
-    let date : String
-}
+
 
 struct Sensor: Identifiable {
     let id = UUID()
