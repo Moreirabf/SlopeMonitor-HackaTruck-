@@ -28,45 +28,62 @@ struct SensorView: View {
     @State private var mapLocation = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 0, longitude: 0), span: MKCoordinateSpan(latitudeDelta: 0.03, longitudeDelta: 0.03))
     
     var body: some View {
-        ScrollView {
+        NavigationStack {
             VStack {
-                Text(sensor.name)
-                    .font(.title)
-                    .fontWeight(.bold)
-                HStack() {
-                    VStack {
-                        Text(sensor.locationName)
-                        Text(sensor.description)
-                        Text("Latitude: " + String(sensor.coordinate.latitude))
-                        Text("Longitude: " + String(sensor.coordinate.longitude))
-                        
-                    }
-                    Map(coordinateRegion: $mapLocation)
-                        .frame(width: 220, height: 220)
+                List {
+                    Section(header: Text("Sensor")) {
+                        HStack() {
+                            VStack(alignment: .leading) {
+                                
+                                Text(sensor.locationName)
+                                    .font(Font.custom("Satoshi-Black", size: 26))
+                                Text(sensor.description)
+                                    .font(Font.custom("Satoshi-Black", size: 17))
+                                Text("Latitude: " + String(sensor.coordinate.latitude))
+                                    .font(Font.custom("Satoshi-Black", size: 16))
+                                Text("Longitude: " + String(sensor.coordinate.longitude))
+                                    .font(Font.custom("Satoshi-Black", size: 16))
+                                
+                                
+                                
+                            }
+                            Map(coordinateRegion: $mapLocation)
+                                .frame(width: 160, height: 160)
+                                .cornerRadius(10)
+                        }//Section sensor
                 }
-                Chart {
-                    ForEach(sensorData.data, id: \.self) { item in
-                        LineMark(
-                            x: .value("Time", viewModel.formatDate(date: item.date)),
-                            y: .value("Umidity", item.raw.umidade))
-                    }
-                }.frame(width: 300, height: 300)
-                
-                if let lastElement = sensorData.data.last {
-                    Text("Inclinação: " + lastElement.inclinacao)
-                }
+                    Section(header: Text("Umidade")){
+                        Chart {
+                            ForEach(sensorData.data, id: \.self) { item in
+                                LineMark(
+                                    x: .value("Time", viewModel.formatDate(date: item.date)),
+                                    y: .value("Umidity", item.raw.umidade))
+                            }
+                        }.frame(width: 300, height: 300)
+                    }//sensor umidade
+                    Section(header: Text("inclinação")){
+                        if let lastElement = sensorData.data.last {
+                            Text("Inclinação: " + lastElement.inclinacao)
+                            Image("\(Int(lastElement.raw.inclinacaoSegmentos))")
+                                .resizable()
+                                .frame(width: 310, height: 310)
+                        }
+                    }//Section inclincao
             }
             .onAppear(){
                 mapLocation.center = sensor.coordinate
                 viewModel.fetch()
-            }
+            }.navigationTitle(sensor.name)
             .onReceive(timer) { time in
                 print("The time is now \(time)")
                 viewModel.fetch()
+                
             }
         }
     }
 }
+}
+
 
 struct SensorView_Previews: PreviewProvider {
     static var previews: some View {
