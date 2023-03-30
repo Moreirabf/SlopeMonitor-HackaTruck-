@@ -13,7 +13,7 @@
 
 
 import SwiftUI
-
+import MapKit
 
 
 
@@ -21,19 +21,25 @@ struct NotificationView: View {
     @StateObject var notificationModel = NotificationModel()
     @State var notifications : [Notification]
     
+    var sensor = Sensor(name: "São Carlos", locationName: "Lugar 1", description: "primeiro sensor", coordinate: CLLocationCoordinate2D(latitude: -23.5489, longitude: -46.6388))
+    
     var body: some View {
         VStack{
             NavigationStack{
                 List{
                     ForEach(notifications, id: \.self){ n in
-                        HStack{
-                            VStack(alignment: .leading){
-                                Text(notificationModel.type(type: n.notificacao)).bold()
-                                Text("Sensor: São Carlos")
-                            }.padding(5)
-                            Spacer()
-                            VStack{
-                                Text(n.date)
+                        NavigationLink{
+                            SensorView(sensor: sensor)
+                        } label: {
+                            HStack{
+                                VStack(alignment: .leading){
+                                    Text(notificationModel.type(type: n.notificacao)).bold()
+                                    Text("Sensor: São Carlos")
+                                }.padding(5)
+                                Spacer()
+                                VStack{
+                                    Text(n.date)
+                                }
                             }
                         }
                     }
