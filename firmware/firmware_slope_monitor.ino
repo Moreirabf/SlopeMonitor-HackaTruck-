@@ -1,23 +1,3 @@
-/*
-   25/06/2020
-   Fabrício Sousa
-   Exemplo IBM Watson IoT Platform + Planta IoT
-   Hardware: new NodeMCU LoLin V3 + Sensor umidade solo
-
-
-   Logica:
-   1. efetua conexao com a rede WiFi
-   2. obtem a grandeza de umidade do solo
-   3. conecta no servidor MQTT IBM Watson IoT Platform
-   4. publica a JSON string para o topico 
-   
-   referencias Bluemix e IoTF:
-   Autor: FilipeFlop
-   https://www.filipeflop.com/blog/planta-iot-com-esp8266-nodemcu/
-   
-*/
-
-
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 
@@ -82,11 +62,6 @@ void setup() {
 }
 
 
-//Função: faz a leitura do nível de umidade
-//Parâmetros: nenhum
-//Retorno: umidade percentual (0-100)
-//Observação: o ADC do NodeMCU permite até, no máximo, 3.3V. Dessa forma,
-//            para 3.3V, obtem-se (empiricamente) 978 como leitura de ADC
 float FazLeituraUmidade(void)
 {
     int ValorADC;
@@ -96,8 +71,15 @@ float FazLeituraUmidade(void)
     delay(1000);
  
      ValorADC = analogRead(0);   //978 -> 3,3V
+    Serial.print("Raw umidade: ");
+     Serial.println(ValorADC);
+   
+     //Calibracao
+     //523 = 0
+     //905 = 100
+     //905-523 = 382 == 100
      
-     UmidadePercentual = 100 * ((978-(float)ValorADC) / 978);
+     UmidadePercentual = 100-((((float)ValorADC-523)*100)/382);
      
      digitalWrite(UMIDADE,LOW);
  
@@ -119,6 +101,10 @@ float inclinometro(void)
      delay(1000); 
      ValorADC = analogRead(0);   //978 -> 3,3V
 
+     Serial.print("Raw inclinometro: ");
+     Serial.println(ValorADC);
+
+     //Calibracao
      //557 = 0
      //878 = 90 
      //878-557 = 321 == 90
@@ -129,6 +115,22 @@ float inclinometro(void)
  
      return anguloInclinacao;
 }
+
+float evaluateRisk(float inclinacao, float umidade){
+  
+
+      float parte1 = pow(inclinacao, 4) * pow(umidade, 2);
+      float riscoPercentual = pow(parte1,1.5)/3503564037074;
+      
+        if (riscoPercentual > 100) {
+          riscoPercentual = 100.00;
+        }
+        
+    return roundf(riscoPercentual * 10) / 10;    
+} 
+    
+  
+  
 
 float angleToSegmentos(float anguloInclinacao){
   
@@ -216,18 +218,24 @@ void loop() {
   float umidade = FazLeituraUmidade();
   delay(100);
   float inclinacao = inclinometro();
+
+  //pos-processamento
   float inclinacaoSegmentos = angleToSegmentos(inclinacao);
+  float riscoPercentual = evaluateRisk(inclinacao,umidade);
   
   // Conversao Floats para Strings
-  char TempString[32];  //  array de character temporario
-  char TempStringInclinacao[32];  //  array de character temporario
-  char TempStringInclinacaoSegmentos[32];  //  array de character temporario
+  char TempString[32];
+  char TempRisco[32]; 
+  char TempStringInclinacao[32];  
+  char TempStringInclinacaoSegmentos[32]; 
 
 
   dtostrf(umidade, 2, 1, TempString);
+  dtostrf(riscoPercentual, 2, 1, TempRisco);
   dtostrf(inclinacao, 2, 1, TempStringInclinacao);
   dtostrf(inclinacaoSegmentos, 2, 1, TempStringInclinacaoSegmentos);
   String umidadestr =  String(TempString);
+  String riscostr =  String(TempRisco);
   String inclinacaostr =  String(TempStringInclinacao);
   String inclinacaoSegmentosstr =  String(TempStringInclinacaoSegmentos);
 
@@ -236,7 +244,7 @@ void loop() {
   int length = 0;
 
 
-  String payload = "{\"d\":{\"umidade\":\"" + umidadestr + "\",\"inclinacaoDegrees\":\"" + inclinacaostr + "\",\"inclinacaoSegmentos\":\"" + inclinacaoSegmentosstr + "\" }}";
+  String payload = "{\"d\":{\"umidade\":\"" + umidadestr + "\",\"risco\":\"" + riscostr + "\",\"inclinacaoDegrees\":\"" + inclinacaostr + "\",\"inclinacaoSegmentos\":\"" + inclinacaoSegmentosstr + "\" }}";
 
 
   length = payload.length();

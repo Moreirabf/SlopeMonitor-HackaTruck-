@@ -1,0 +1,409 @@
+[
+    {
+        "id": "e3478c642ab40da3",
+        "type": "tab",
+        "label": "Flow 6",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "dfd8132e13fa3b85",
+        "type": "http in",
+        "z": "e3478c642ab40da3",
+        "name": "",
+        "url": "/readslopemonitor",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 120,
+        "y": 80,
+        "wires": [
+            [
+                "26a959951c5c9343"
+            ]
+        ]
+    },
+    {
+        "id": "07a4f41ba4e8b5f2",
+        "type": "http response",
+        "z": "e3478c642ab40da3",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 710,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "7af5105ec51640e2",
+        "type": "debug",
+        "z": "e3478c642ab40da3",
+        "name": "debug 30",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 720,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "26a959951c5c9343",
+        "type": "cloudantplus in",
+        "z": "e3478c642ab40da3",
+        "name": "",
+        "cloudant": "a7a3ab3910f69f47",
+        "database": "slope_monitor",
+        "service": "_ext_",
+        "search": "_all_",
+        "design": "",
+        "index": "",
+        "x": 360,
+        "y": 80,
+        "wires": [
+            [
+                "85184630b7d5fb5c"
+            ]
+        ]
+    },
+    {
+        "id": "85184630b7d5fb5c",
+        "type": "sort",
+        "z": "e3478c642ab40da3",
+        "name": "",
+        "order": "ascending",
+        "as_num": false,
+        "target": "payload",
+        "targetType": "msg",
+        "msgKey": "date",
+        "msgKeyType": "jsonata",
+        "seqKey": "payload",
+        "seqKeyType": "msg",
+        "x": 530,
+        "y": 80,
+        "wires": [
+            [
+                "07a4f41ba4e8b5f2",
+                "7af5105ec51640e2"
+            ]
+        ]
+    },
+    {
+        "id": "c7a6cc71f1be2be7",
+        "type": "function",
+        "z": "e3478c642ab40da3",
+        "name": "function 5",
+        "func": "msg.payload = \n{ \n    umidade: msg.payload.d.umidade + \" %\", \n    risco: msg.payload.d.risco + \" %\",\n    inclinacao: msg.payload.d.inclinacaoSegmentos + \" graus\", \n    date: new Date(), \n    raw: { \n        umidade: msg.payload.d.umidade * 1, \n        risco: msg.payload.d.risco * 1,\n        inclinacaoSegmentos: msg.payload.d.inclinacaoSegmentos * 1, \n        inclinacaoDegrees: msg.payload.d.inclinacaoDegrees * 1 \n    } \n};\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 260,
+        "y": 260,
+        "wires": [
+            [
+                "660f367baa614ad5"
+            ]
+        ]
+    },
+    {
+        "id": "b768b0a0a61427a3",
+        "type": "cloudantplus out",
+        "z": "e3478c642ab40da3",
+        "name": "",
+        "cloudant": "a7a3ab3910f69f47",
+        "database": "slope_monitor",
+        "service": "_ext_",
+        "payonly": true,
+        "operation": "insert",
+        "x": 640,
+        "y": 260,
+        "wires": [
+            [
+                "886e0888c67860e7"
+            ]
+        ]
+    },
+    {
+        "id": "886e0888c67860e7",
+        "type": "debug",
+        "z": "e3478c642ab40da3",
+        "name": "debug 31",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 820,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "660f367baa614ad5",
+        "type": "delay",
+        "z": "e3478c642ab40da3",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "10",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": true,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 440,
+        "y": 260,
+        "wires": [
+            [
+                "b768b0a0a61427a3"
+            ]
+        ]
+    },
+    {
+        "id": "653b8c6ec6987096",
+        "type": "ibmiot in",
+        "z": "e3478c642ab40da3",
+        "authentication": "apiKey",
+        "apiKey": "060bfe14b9e02a5a",
+        "inputType": "evt",
+        "logicalInterface": "",
+        "ruleId": "",
+        "deviceId": "",
+        "applicationId": "",
+        "deviceType": "+",
+        "eventType": "+",
+        "commandType": "",
+        "format": "json",
+        "name": "IBM IoT",
+        "service": "registered",
+        "allDevices": "",
+        "allApplications": true,
+        "allDeviceTypes": true,
+        "allLogicalInterfaces": "",
+        "allEvents": true,
+        "allCommands": "",
+        "allFormats": "",
+        "qos": 0,
+        "x": 110,
+        "y": 260,
+        "wires": [
+            [
+                "c7a6cc71f1be2be7",
+                "d81c7680515c133d"
+            ]
+        ]
+    },
+    {
+        "id": "d81c7680515c133d",
+        "type": "function",
+        "z": "e3478c642ab40da3",
+        "name": "function 6",
+        "func": "let incl = msg.payload.d.inclinacaoDegrees * 1\nlet risco = msg.payload.d.risco * 1\nconst incl_cadastrado = 30\nconst risco_baixo = 25\n\nmsg.payload = {\n    notificacao: 0\n}\n\n// se inclinacao saiu do limite cadastrado mas risco eh baixo\n// entao eh anomalia\nif (incl > incl_cadastrado && risco < risco_baixo) {\n    msg.payload = {\n        notificacao: 1,\n        date: new Date()\n    }\n}\n\n// se inclinacao saiu do limite cadastrado e risco eh alto\n// entao eh deslizamento\nif (incl > incl_cadastrado && risco > risco_baixo) {\n    msg.payload = {\n        notificacao: 2,\n        date: new Date()\n    }\n}\n\n// se risco alto\nif (risco > risco_baixo) {\n    msg.payload = {\n        notificacao: 3,\n        date: new Date()\n    }\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 260,
+        "y": 360,
+        "wires": [
+            [
+                "2857ac25670dbfdf"
+            ]
+        ]
+    },
+    {
+        "id": "2857ac25670dbfdf",
+        "type": "switch",
+        "z": "e3478c642ab40da3",
+        "name": "",
+        "property": "payload.notificacao",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "1",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "2",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "3",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 3,
+        "x": 430,
+        "y": 360,
+        "wires": [
+            [
+                "fd0caa38c85d6bb4"
+            ],
+            [
+                "fd0caa38c85d6bb4"
+            ],
+            [
+                "fd0caa38c85d6bb4"
+            ]
+        ]
+    },
+    {
+        "id": "fd0caa38c85d6bb4",
+        "type": "delay",
+        "z": "e3478c642ab40da3",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "5",
+        "rateUnits": "minute",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": true,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 620,
+        "y": 360,
+        "wires": [
+            [
+                "90a95afccea3b2d3"
+            ]
+        ]
+    },
+    {
+        "id": "90a95afccea3b2d3",
+        "type": "cloudantplus out",
+        "z": "e3478c642ab40da3",
+        "name": "",
+        "cloudant": "a7a3ab3910f69f47",
+        "database": "slope_notification",
+        "service": "_ext_",
+        "payonly": true,
+        "operation": "insert",
+        "x": 830,
+        "y": 360,
+        "wires": [
+            [
+                "61c09bd6f493686e"
+            ]
+        ]
+    },
+    {
+        "id": "61c09bd6f493686e",
+        "type": "debug",
+        "z": "e3478c642ab40da3",
+        "name": "debug 32",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1020,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "b585bfb8a777aadd",
+        "type": "http in",
+        "z": "e3478c642ab40da3",
+        "name": "",
+        "url": "/readslopenotification",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 130,
+        "y": 460,
+        "wires": [
+            [
+                "9719bb57c81929c5"
+            ]
+        ]
+    },
+    {
+        "id": "9719bb57c81929c5",
+        "type": "cloudantplus in",
+        "z": "e3478c642ab40da3",
+        "name": "",
+        "cloudant": "a7a3ab3910f69f47",
+        "database": "slope_notification",
+        "service": "_ext_",
+        "search": "_all_",
+        "design": "",
+        "index": "",
+        "x": 370,
+        "y": 460,
+        "wires": [
+            [
+                "d97cbbeda1b08932",
+                "154cbba82aaf2adc"
+            ]
+        ]
+    },
+    {
+        "id": "d97cbbeda1b08932",
+        "type": "http response",
+        "z": "e3478c642ab40da3",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 610,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "154cbba82aaf2adc",
+        "type": "debug",
+        "z": "e3478c642ab40da3",
+        "name": "debug 33",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 620,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "a7a3ab3910f69f47",
+        "type": "cloudantplus",
+        "host": "https://apikey-v2-35ucaoutk0vp50qqbwmtf35ohx2p8jnobg93n67nrakn:11a355f5ca289c184bb59bf9c7d633d2@bbd3c0ee-d0c8-455b-bbd3-8d6d996c2c0a-bluemix.cloudantnosqldb.appdomain.cloud",
+        "name": "thales",
+        "useapikey": true
+    },
+    {
+        "id": "060bfe14b9e02a5a",
+        "type": "ibmiot",
+        "name": "Caumaker",
+        "keepalive": "60",
+        "serverName": "k7vm21.messaging.internetofthings.ibmcloud.com",
+        "cleansession": true,
+        "appId": "",
+        "shared": false
+    }
+]
