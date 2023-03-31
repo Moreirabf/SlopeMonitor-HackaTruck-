@@ -46,10 +46,10 @@ struct NotificationView: View {
                     }
                 }.navigationTitle("Notificações")
                 
+            }.onReceive(timer) { time in
+                notificationModel.fetch()
             }
             
-        }.onReceive(timer) { time in
-            notificationModel.fetch()
         }
     }
 }

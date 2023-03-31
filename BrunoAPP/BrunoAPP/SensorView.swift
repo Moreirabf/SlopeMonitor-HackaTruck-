@@ -21,7 +21,7 @@ struct UmidityData: Identifiable {
 }
 
 struct SensorView: View {
-    let timer = Timer.publish(every: 5, tolerance: 1, on: .main, in: .common).autoconnect()
+    let timer = Timer.publish(every: 2, tolerance: 1, on: .main, in: .common).autoconnect()
     @StateObject var viewModel = ViewModel()
     
     var sensor : Sensor
@@ -43,6 +43,11 @@ struct SensorView: View {
                                     .font(Font.custom("Satoshi-Black", size: 16))
                                 Text("Longitude: " + String(sensor.coordinate.longitude))
                                     .font(Font.custom("Satoshi-Black", size: 16))
+                                
+                                if let lastElement = sensorData.data.last {
+                                    Text("Risco: " + String(lastElement.raw.risco))
+                                        .font(Font.custom("Satoshi-Black", size: 16))
+                                }
                                 
                                 
                                 
